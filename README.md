@@ -9,7 +9,7 @@ Ready to use MSIs for RealVNC Server CloudAware Installer are found under [Relea
 ## How do I use it?
 RealVNC Server CloudAware Installer is used at the command line. It is called using the Windows msiexec application. A sample command (Administrator Command Prompt required) is below:
 ```
-msiexec /i "VNC-Server-7.5.1-CloudAware.msi" CLOUDTOKEN=MYTOKEN /qn
+msiexec /i "RealVNC-Server-7.5.1-Windows-en-64bit-CloudAware.msi" CLOUDTOKEN=MYTOKEN /qn
 ```
 where MYTOKEN is replaced by your RealVNC Connect cloud deployment token.
 
@@ -46,7 +46,7 @@ GOOS=windows GOARCH=amd64 go build realvnccloudjoin
 ### MSI Transform
 The MSI Transform is used to customise the MSI installer and add custom actions to use the Go binary for install and uninstall. Transform files are created using Microsoft's [Orca](https://docs.microsoft.com/en-us/windows/win32/msi/orca-exe) application. A ready-to-use Transform is available in [msi-transform](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/blob/master/msi-transform). This can be applied to a generic RealVNC Server MSI installer (example command below, Administrator Command Prompt required), or applied using Orca to create a transformed MSI.
 ```
-msiexec /i "RealVNC Server.msi" transforms="CloudJoin.mst" /qn
+msiexec /i "VNC-Server-7.5.1-Windows-en-64bit.msi" transforms="CloudJoin.mst" /qn
 ```
 The transform modifies 3 tables: Binary, CustomAction and InstallExecuteSequence.
 
