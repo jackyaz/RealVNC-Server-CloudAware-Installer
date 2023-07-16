@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"os"
 	"os/exec"
@@ -49,6 +50,25 @@ func main() {
 		} else {
 			//Success, log success message.
 			log.Print("RealVNC Server has been joined to the cloud")
+			os.Exit(0)
+		}
+	} else if os.Args[1] == "status" {
+		// If join argument provided, use token to join VNC Server to the cloud
+		log.Print("Checking RealVNC Server cloud status...")
+		svr := os.ExpandEnv("$ProgramFiles\\RealVNC\\VNC Server\\vncserver.exe")
+		cmd := exec.Command(svr, "-service", "-cloudStatus")
+		var outb, errb bytes.Buffer
+		cmd.Stdout = &outb
+		cmd.Stderr = &errb
+
+		err := cmd.Start()
+		cmd.Wait() //wait for RealVNC Server command to complete.
+		if err != nil {
+			//Something went wrong, log a fatal error and exit.
+			log.Fatal(err)
+		} else {
+			//Success, log success message.
+			log.Print(cmd.Stdout)
 			os.Exit(0)
 		}
 	}
