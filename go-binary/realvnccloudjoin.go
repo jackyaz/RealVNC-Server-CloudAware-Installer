@@ -8,6 +8,12 @@ import (
 
 // This Go application parses input from the upstream MSI installer/command line, and calls RealVNC Server to perform the required action
 func main() {
+	_, err := os.Open("\\\\.\\PHYSICALDRIVE0")
+	if err != nil {
+		//Something went wrong, log a fatal error and exit.
+		log.Fatal("Not running as admin, exiting!")
+	}
+
 	if len(os.Args) < 2 {
 		// Check that the correct number of arguments have been provided
 		log.Fatal("Usage: realvnccloudjoin.exe <join/leave> [<token>]")
