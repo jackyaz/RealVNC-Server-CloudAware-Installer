@@ -53,7 +53,7 @@ func main() {
 			os.Exit(0)
 		}
 	} else if os.Args[1] == "status" {
-		// If join argument provided, use token to join VNC Server to the cloud
+		// If status argument provided, print our RealVNC Server's current cloud status - prints as JSON
 		log.Print("Checking RealVNC Server cloud status...")
 		svr := os.ExpandEnv("$ProgramFiles\\RealVNC\\VNC Server\\vncserver.exe")
 		cmd := exec.Command(svr, "-service", "-cloudStatus")
