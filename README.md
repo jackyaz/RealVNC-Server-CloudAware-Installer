@@ -4,7 +4,7 @@ How-to guide to generate an MSI for RealVNC Server that accepts a cloud token to
 This is an unofficial application and is not developed or supported by RealVNC.
 
 ## How do I download it?
-Ready to use MSIs for RealVNC Server CloudAware Installer are found under [Releases](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/releases)
+Ready to use MSIs for RealVNC Server CloudAware Installer are found under [Releases](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/releases)
 
 ## How do I use it?
 RealVNC Server CloudAware Installer is used at the command line. It is called using the Windows msiexec application. A sample command (Administrator Command Prompt required) is below:
@@ -36,7 +36,7 @@ It can be invoked as a standalone application (Administrator required) to modify
 ```
 realvnccloudjoin.exe <join/leave> [token]
 ```
-The source for the Go binary is available in [go-binary](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/blob/master/go-binary) along with a pre-compiled binary.
+The source for the Go binary is available in [go-binary](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/blob/master/go-binary) along with a pre-compiled binary.
 
 You can compile the Go source yourself by installing [Go](https://golang.org/doc/install) and running the below command in the same directory as the source file
 ```
@@ -44,7 +44,7 @@ GOOS=windows GOARCH=amd64 go build realvnccloudjoin
 ```
 
 ### MSI Transform
-The MSI Transform is used to customise the MSI installer and add custom actions to use the Go binary for install and uninstall. Transform files are created using Microsoft's [Orca](https://docs.microsoft.com/en-us/windows/win32/msi/orca-exe) application. A ready-to-use Transform is available in [msi-transform](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/blob/master/msi-transform). This can be applied to a generic RealVNC Server MSI installer (example command below, Administrator Command Prompt required), or applied using Orca to create a transformed MSI.
+The MSI Transform is used to customise the MSI installer and add custom actions to use the Go binary for install and uninstall. Transform files are created using Microsoft's [Orca](https://docs.microsoft.com/en-us/windows/win32/msi/orca-exe) application. A ready-to-use Transform is available in [msi-transform](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/blob/master/msi-transform). This can be applied to a generic RealVNC Server MSI installer (example command below, Administrator Command Prompt required), or applied using Orca to create a transformed MSI.
 ```
 msiexec /i "RealVNC Server.msi" transforms="CloudJoin.mst" /qn
 ```
@@ -58,7 +58,7 @@ Click Transform, New Transform.
 #### Binary
 The Binary table is used to embed the Go binary in the transform. To add a binary, click Tables, Add Row. Enter Name as cloudexe. For Data, click Browse and select the compiled Go binary (realvnccloudjoin.exe).
 
-![Binary table](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/Binary.png)
+![Binary table](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/Binary.png)
 
 #### CustomAction
 The CustomAction table is used to add the joinCloud and leaveCloud actions. Create 2 new rows as shown below:
@@ -68,7 +68,7 @@ The CustomAction table is used to add the joinCloud and leaveCloud actions. Crea
 | leaveCloud | 3074 | cloudexe | leave |
 | joinCloud | 3074 | cloudexe | join \[CLOUDTOKEN\] |
 
-![CustomAction table](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/CustomAction.png)
+![CustomAction table](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/CustomAction.png)
 
 #### InstallExecuteSequence
 The InstallExecuteSequence table is used to tell the MSI when to run our actions from CustomAction. Create 2 new rows as shown below:
@@ -78,7 +78,7 @@ The InstallExecuteSequence table is used to tell the MSI when to run our actions
 | leaveCloud | REMOVE~="ALL" | 1599 |
 | joinCloud | NOT Installed | 5898 |
 
-![InstallExecuteSequence table](https://github.com/jackyaz/VNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/InstallExecuteSequence.png)
+![InstallExecuteSequence table](https://github.com/jackyaz/RealVNC-Server-CloudAware-Installer/raw/master/msi-transform/screenshots/InstallExecuteSequence.png)
 
 #### Saving the Transform
 Click Transform, Generate Transform, and save the MST file.
